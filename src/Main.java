@@ -1,5 +1,6 @@
 import java.util.Date;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -10,6 +11,7 @@ public class Main {
         int dayCounter = 0;
         boolean stop = false;
         int howManyPlayers = 0;
+        ArrayList<String> gamers = new ArrayList<String>();
 
         int movementsPerRound = 0; //użytkownik będzie sam wybierać od 3 do 10?
 
@@ -41,10 +43,10 @@ public class Main {
             }
 
             else
-            {
-                for(int i = 0; i <howManyPlayers; i++)
-                {System.out.println(i);}
-
+            {   System.out.println("Podaj nazwę gracza/y.");
+                gamers = Menu.nameYourGamers(howManyPlayers);
+                System.out.println(gamers);
+                if(gamers.length != howManyPlayers)
                 stop = true;
             }
 
