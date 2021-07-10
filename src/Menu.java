@@ -65,6 +65,28 @@ public class Menu {
 
         return gamers;
     }
+
+    public static int HowManyMovements() {
+        System.out.println("Wybierz ile ruchów ma wykonywać gracz na jedną turę.");
+        System.out.println("Wypisz liczbę od 3 do 10");
+
+        //odpowiedź
+        try {
+            Scanner input = new Scanner(System.in);
+            int answer = input.nextInt();
+            if (answer >=3 && answer <= 10) {
+                return answer;
+            }
+            else {
+                System.out.println("Podałeś nieprawidłową ilość ruchów.");
+                return 0;
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Podałeś liczbę w złym formacie");
+            return 0;
+        }
+
+    }
 }
 
 
