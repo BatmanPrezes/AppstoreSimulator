@@ -1,11 +1,14 @@
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.time.Instant;
+import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
+import java.math.*;
 
 public class Project {
 
@@ -26,6 +29,9 @@ public class Project {
     Double price;
     //
     String level;
+    //
+    DecimalFormat df = new DecimalFormat("0.00");
+    SimpleDateFormat df2 = new SimpleDateFormat("YYYY-MM-dd");
 
     String[] technology = {"F","B","D","M","W","P"};
 
@@ -39,6 +45,12 @@ public class Project {
                              "AsteroideWatching", "Calculator pro", "DrawIO","Geegle","Ponies"};
 
     String[] levels = {"Łatwy", "Średni", "Złożony"};
+
+    public static String[] removeFromArray(String[] arr, String toRemove) {
+        return Arrays.stream(arr)
+                .filter(obj -> !obj.equals(toRemove))
+                .toArray(String[]::new);
+    }
 
     public Project(Client client,
                    Date today)
@@ -97,16 +109,18 @@ public class Project {
         }
         else if (this.level.equals("Średni"))
         {
-            max = technology.length;
-            rand = new Random();
-            int l = rand.nextInt(max);
-
-            String temp = technology[l];
 
             rand = new Random();
             int m = rand.nextInt((3 - 2) + 1) + 2;
 
             for(int i = 0; i < m; i++) {
+
+                max = technology.length;
+                rand = new Random();
+                int l = rand.nextInt(max);
+
+                String temp = technology[l];
+
                 if (temp.equals("F")) {
                     this.frontEndDays = rand.nextInt(n + 1);
                 } else if (temp.equals("B")) {
@@ -121,23 +135,22 @@ public class Project {
                     this.wordPressDays = rand.nextInt(n + 1);
                 }
 
-                List<String> apps = Arrays.asList(technology);
-                apps.remove(temp);
-                technology = apps.toArray(new String[0]);
+                technology = removeFromArray(technology,temp);
             }
         }
         else
         { //złożony
-            max = technology.length;
-            rand = new Random();
-            int l = rand.nextInt(max);
-
-            String temp = technology[l];
 
             rand = new Random();
             int m = rand.nextInt((6 - 3) + 1) + 3;
 
             for(int i = 0; i < m; i++) {
+
+                max = technology.length;
+                rand = new Random();
+                int l = rand.nextInt(max);
+
+                String temp = technology[l];
                 if (temp.equals("F")) {
                     this.frontEndDays = rand.nextInt(n + 1);
                 } else if (temp.equals("B")) {
@@ -152,9 +165,7 @@ public class Project {
                     this.wordPressDays = rand.nextInt(n + 1);
                 }
 
-                List<String> apps = Arrays.asList(technology);
-                apps.remove(temp);
-                technology = apps.toArray(new String[0]);
+                technology = removeFromArray(technology,temp);
             }
 
         }
@@ -206,19 +217,36 @@ public class Project {
 
     }
 
+    public void WorkWithProject(String technology)
+    {
+        if (technology.equals("F")) {
+            this.frontEndDays = this.frontEndDays - 1;
+        } else if (technology.equals("B")) {
+            this.backEndDays = this.backEndDays - 1;
+        } else if (technology.equals("D")) {
+            this.dataBaseDays = this.dataBaseDays - 1;
+        } else if (technology.equals("M")) {
+            this.mobileDays = this.mobileDays - 1;
+        } else if (technology.equals("P")) {
+            this.prestaShop = this.prestaShop - 1;
+        } else {
+            this.wordPressDays = this.wordPressDays - 1;
+        }
+    }
+
     public String toString() {
         String techno ="";
 
         if(this.frontEndDays!=0){techno = techno+"Frontend: " + this.frontEndDays + " dni\n";}
-        if(this.backEndDays!=0){techno = techno+"Frontend: " + this.backEndDays + " dni\n";}
-        if(this.dataBaseDays!=0){techno = techno+"Frontend: " + this.dataBaseDays + " dni\n";}
-        if(this.wordPressDays!=0){techno = techno+"Frontend: " + this.wordPressDays + " dni\n";}
-        if(this.prestaShop!=0){techno = techno+"Frontend: " + this.prestaShop + " dni\n";}
-        if(this.mobileDays!=0){techno = techno+"Frontend: " + this.mobileDays + " dni\n";}
+        if(this.backEndDays!=0){techno = techno+"Backend: " + this.backEndDays + " dni\n";}
+        if(this.dataBaseDays!=0){techno = techno+"Database: " + this.dataBaseDays + " dni\n";}
+        if(this.wordPressDays!=0){techno = techno+"Wordpress: " + this.wordPressDays + " dni\n";}
+        if(this.prestaShop!=0){techno = techno+"PrestaShop: " + this.prestaShop + " dni\n";}
+        if(this.mobileDays!=0){techno = techno+"Mobile: " + this.mobileDays + " dni\n";}
 
         return "Nazwa projektu: " + this.projectName + " Klient: " + this.client + " Do: " +
-                this.dueDate + " Płatność " + this.duePaymentDays + " dni od oddania projektu. Poziom trudności: " +
-                this.level+"\nTechnologie:\n"+techno+"Kara dzienna za opóźnienie: " + this.penaltyPerDay + " Cena: " + this.price;
+                df2.format(this.dueDate) + " Płatność " + this.duePaymentDays + " dni od oddania projektu. Poziom trudności: " +
+                this.level+"\nTechnologie:\n"+techno+"Kara dzienna za opóźnienie: " + df.format(this.penaltyPerDay) + " Cena: " + df.format(this.price);
 
     }
 
