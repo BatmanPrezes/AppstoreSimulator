@@ -1,6 +1,7 @@
 import java.text.DecimalFormat;
 import java.util.Random;
 
+
 public class Employee {
     String firstName;
     String lastName;
@@ -48,6 +49,8 @@ public class Employee {
         rand = new Random();
         int m = rand.nextInt((3 - 2) + 1) + 2;
 
+        technology = new String[m];
+
         for(int i = 0; i < m; i++) {
 
             max = technologies.length;
@@ -56,9 +59,9 @@ public class Employee {
 
             String temp = technologies[l];
 
-            technology.add(temp);
+            technology[i] = temp ;
 
-            technology = Project.removeFromArray(technology,temp);
+            technologies = Project.removeFromArray(technologies,temp);
         }
 
         //
